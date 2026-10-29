@@ -1,0 +1,8 @@
+# Design preview: never let a second Legacy homepage into search.
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
