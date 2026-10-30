@@ -207,7 +207,7 @@ img.av{width:48px;height:48px;object-fit:cover;background:none;box-shadow:0 0 0 
 @media (prefers-reduced-motion:reduce){ .hero-video{display:none;} }
 
 /* ---------- search: generated label icons + branded dropdowns (built by lr.js over the native selects) ---------- */
-.sf-l img{width:26px;height:26px;margin:-4px 0;}
+.sf-l{padding-left:4px;}
 .dd2{position:relative;}
 .dd2-btn{width:100%;height:50px;display:flex;align-items:center;gap:10px;padding:0 14px 0 10px;border:1px solid var(--gray2);border-radius:14px;background:var(--gray);
   font:500 15px var(--sans);color:var(--navy);text-align:left;cursor:pointer;transition:border-color .2s,box-shadow .25s,background .2s;}
@@ -237,3 +237,11 @@ img.av{width:48px;height:48px;object-fit:cover;background:none;box-shadow:0 0 0 
 .dd2.open .dd2-list li:nth-child(5){animation-delay:.12s} .dd2.open .dd2-list li:nth-child(6){animation-delay:.15s} .dd2.open .dd2-list li:nth-child(7){animation-delay:.18s}
 @keyframes optin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
 .search-wrap{z-index:20;}
+
+/* ---------- logo (client SVG: gradient roof mark + white wordmark, for dark backgrounds) ---------- */
+.logo-img{display:block;width:auto;height:48px;transition:filter .3s,transform .4s var(--ease);}
+.logo:hover .logo-img{filter:drop-shadow(0 0 12px rgba(52,198,190,.6));transform:translateY(-1px);}
+.nav-in .logo-img{animation:rise .9s var(--ease) .2s both;}
+@media (min-width:1080px){ .nav-in .logo-img{height:56px;margin:-4px 0;} }
+.foot .logo-img{height:96px;}
+@media (max-width:359px){ .nav-in .logo-img{height:38px;} }
