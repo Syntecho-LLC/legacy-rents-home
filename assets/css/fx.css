@@ -196,3 +196,44 @@
 .chip img{width:24px;height:24px;margin:-3px 0 -3px -4px;}
 .pgrid a{align-content:center;grid-template-rows:auto auto;row-gap:3px;}
 .pic{grid-row:1/3;align-self:center;}
+
+/* reviewer avatars: photos with a teal glow ring */
+img.av{width:48px;height:48px;object-fit:cover;background:none;box-shadow:0 0 0 3px #fff,0 0 0 5px rgba(52,198,190,.55),0 6px 18px rgba(52,198,190,.3);transition:transform .45s var(--ease),box-shadow .45s;}
+.rev:hover img.av{transform:scale(1.08);box-shadow:0 0 0 3px #fff,0 0 0 5px #34C6BE,0 0 24px rgba(52,198,190,.55);}
+
+/* ---------- hero video (fades in over the photo once it can play) ---------- */
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s var(--ease);z-index:0;}
+.hero-video.on{opacity:1;}
+@media (prefers-reduced-motion:reduce){ .hero-video{display:none;} }
+
+/* ---------- search: generated label icons + branded dropdowns (built by lr.js over the native selects) ---------- */
+.sf-l img{width:26px;height:26px;margin:-4px 0;}
+.dd2{position:relative;}
+.dd2-btn{width:100%;height:50px;display:flex;align-items:center;gap:10px;padding:0 14px 0 10px;border:1px solid var(--gray2);border-radius:14px;background:var(--gray);
+  font:500 15px var(--sans);color:var(--navy);text-align:left;cursor:pointer;transition:border-color .2s,box-shadow .25s,background .2s;}
+.dd2-btn:hover{border-color:var(--teal-l);background:#fff;}
+.dd2.open .dd2-btn,.dd2-btn:focus-visible{outline:none;border-color:var(--teal);background:#fff;box-shadow:0 0 0 4px rgba(52,198,190,.18),0 0 24px rgba(52,198,190,.2);}
+.dd2-btn img{width:28px;height:28px;flex:none;}
+.dd2-val{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dd2-val.ph{color:var(--muted);}
+.chev2{flex:none;width:9px;height:9px;border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);transform:translateY(-3px) rotate(45deg);transition:transform .3s var(--ease);}
+.dd2.open .chev2{transform:translateY(2px) rotate(-135deg);}
+.dd2-list{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:30;margin:0;padding:6px;list-style:none;border-radius:18px;background:#fff;outline:none;
+  box-shadow:0 24px 50px rgba(11,34,57,.2),0 0 0 1px rgba(52,198,190,.25),0 0 40px rgba(52,198,190,.15);
+  opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top center;transition:opacity .22s,transform .3s var(--ease),visibility .22s;max-height:420px;overflow-y:auto;}
+.dd2.open .dd2-list{opacity:1;visibility:visible;transform:none;}
+.dd2-list li{display:flex;align-items:center;gap:12px;padding:9px 12px 9px 8px;border-radius:12px;font-size:15px;font-weight:500;color:var(--navy);cursor:pointer;transition:background .15s;}
+.dd2-list li img{width:30px;height:30px;flex:none;transition:transform .3s var(--ease);}
+.dd2-list li.any img{opacity:.45;filter:grayscale(.4);}
+.dd2-list li span{flex:1;}
+.dd2-tag{font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 8px;border-radius:999px;background:var(--teal-xl);color:var(--teal-ink);}
+.dd2-list li .ok{width:18px;height:18px;flex:none;opacity:0;stroke:var(--teal-d);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transform:scale(.6);transition:opacity .2s,transform .3s var(--ease);}
+.dd2-list li[aria-selected=true]{background:linear-gradient(90deg,rgba(190,229,221,.55),rgba(230,246,243,.4));}
+.dd2-list li[aria-selected=true] .ok{opacity:1;transform:none;}
+.dd2-list li.act{background:var(--teal-xl);}
+.dd2-list li.act img{transform:scale(1.12) rotate(-6deg);}
+.dd2.open .dd2-list li{animation:optin .35s var(--ease) both;}
+.dd2.open .dd2-list li:nth-child(2){animation-delay:.03s} .dd2.open .dd2-list li:nth-child(3){animation-delay:.06s} .dd2.open .dd2-list li:nth-child(4){animation-delay:.09s}
+.dd2.open .dd2-list li:nth-child(5){animation-delay:.12s} .dd2.open .dd2-list li:nth-child(6){animation-delay:.15s} .dd2.open .dd2-list li:nth-child(7){animation-delay:.18s}
+@keyframes optin{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+.search-wrap{z-index:20;}

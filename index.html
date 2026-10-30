@@ -96,6 +96,9 @@
     <source media="(max-width:767px)" srcset="assets/img/hero-m.webp">
     <img src="assets/img/hero.webp" alt="Row of brand-new Legacy townhomes with covered front porches" width="1600" height="800" fetchpriority="high">
   </picture>
+  <!-- Drone flyover of a Legacy community (Fairgrove, Conover). lr.js picks the 720p or 1280p file and only plays it when motion is allowed; the photo above stays as the fallback. -->
+  <video class="hero-video" id="heroVideo" muted loop playsinline preload="none" poster="assets/video/hero-poster.webp" aria-hidden="true"
+    data-src-sm="assets/video/hero-720.mp4" data-src-lg="assets/video/hero-1280.mp4"></video>
   <div class="hero-in wrap">
     <p class="kick kick-l"><span class="dot"></span>Now leasing in NC &amp; TX</p>
     <h1 id="h1">Rent Better.<br><span class="t">Live Better.</span></h1>
@@ -110,9 +113,9 @@
 <!-- search card overlapping the hero edge -->
 <div class="search-wrap wrap">
   <form class="search" action="https://legacyhomesrent.com/find-a-home" method="get" role="search" aria-label="Search homes">
-    <label class="sf">
-      <span class="sf-l"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Location</span>
-      <select name="city">
+    <div class="sf">
+      <span class="sf-l" id="lbl-city"><img src="assets/img/icons/s-pick.webp" alt="" width="26" height="26">Location</span>
+      <select name="city" aria-labelledby="lbl-city" data-icon="assets/img/icons/s-pick.webp" data-tags="1">
         <option value="">City or community</option>
         <option>Hickory, NC</option>
         <option>Conover, NC</option>
@@ -121,10 +124,10 @@
         <option>Temple, TX</option>
         <option>Belton, TX</option>
       </select>
-    </label>
-    <label class="sf">
-      <span class="sf-l"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 15h18M6 10V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3M12 10V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>Bedrooms</span>
-      <select name="beds">
+    </div>
+    <div class="sf">
+      <span class="sf-l" id="lbl-beds"><img src="assets/img/icons/bed.webp" alt="" width="26" height="26">Bedrooms</span>
+      <select name="beds" aria-labelledby="lbl-beds" data-icon="assets/img/icons/bed.webp">
         <option value="">Any</option>
         <option value="1">1 bed</option>
         <option value="2">2 beds</option>
@@ -132,16 +135,16 @@
         <option value="4">4 beds</option>
         <option value="5">5+ beds</option>
       </select>
-    </label>
-    <label class="sf">
-      <span class="sf-l"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M16.5 7.5c0-1.7-2-3-4.5-3s-4.5 1.3-4.5 3S9.5 10.4 12 11s4.5 1.6 4.5 3.5-2 3-4.5 3-4.5-1.3-4.5-3"/></svg>Monthly Budget</span>
-      <select name="price">
+    </div>
+    <div class="sf">
+      <span class="sf-l" id="lbl-price"><img src="assets/img/icons/wallet.webp" alt="" width="26" height="26">Monthly Budget</span>
+      <select name="price" aria-labelledby="lbl-price" data-icon="assets/img/icons/wallet.webp">
         <option value="">Any</option>
         <option value="0-1700">Under $1,700</option>
         <option value="1700-1900">$1,700 – $1,900</option>
         <option value="1900-99999">$1,900+</option>
       </select>
-    </label>
+    </div>
     <button class="btn btn-teal search-go" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search Homes</button>
   </form>
 </div>
@@ -231,13 +234,14 @@
         <button type="button" class="rnav" data-rev="1" aria-label="Next reviews">→</button>
       </div>
     </div>
+    <!-- Avatars are the same stand-in portraits the live homepage uses for these reviews, not the reviewers' own photos. -->
     <div class="rev-track" id="revs" tabindex="0" aria-label="Google reviews">
-      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“We’ve been renting for a year from Legacy and it’s been great! Jasmine specifically has been the most helpful, quick to answer any and all questions we may have in the residents department.”</blockquote><figcaption><span class="av">CB</span><span><b>Caleb B.</b><small>Google review</small></span></figcaption></figure>
-      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“We requested a showing and immediately got a response for the next day. When we decided we needed something bigger she suggested another property in Newton to see the next day. The home was spacious and beautifully built.”</blockquote><figcaption><span class="av">KM</span><span><b>Kara M.</b><small>Google review</small></span></figcaption></figure>
-      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“I’ve been leasing a Legacy property for a year now and they have been a wonderful team to work with! They are very responsive and always willing to help however they can.”</blockquote><figcaption><span class="av">EE</span><span><b>Elizabeth E.</b><small>Google review</small></span></figcaption></figure>
-      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“I just got medically retired from the Air Force and moved back to NC. I needed a place to live and Legacy worked with me for months. Very professional and absolutely wonderful to work with.”</blockquote><figcaption><span class="av">CS</span><span><b>Chris S.</b><small>Google review</small></span></figcaption></figure>
-      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“It was a breath of fresh air to interact with an actual human instead of AI text messaging from other renters. Knowledgeable and present for the whole process!”</blockquote><figcaption><span class="av">CL</span><span><b>Charlie L.</b><small>Google review</small></span></figcaption></figure>
-      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“From the very beginning she was with us every single step of the way and truly made finding our dream home such a smooth and stress-free experience.”</blockquote><figcaption><span class="av">AC</span><span><b>Alexis C.</b><small>Google review</small></span></figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“We’ve been renting for a year from Legacy and it’s been great! Jasmine specifically has been the most helpful, quick to answer any and all questions we may have in the residents department.”</blockquote><figcaption><img class="av" src="assets/img/reviews/caleb-b.webp" alt="" width="96" height="96" loading="lazy"><span><b>Caleb B.</b><small>Google review</small></span></figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“We requested a showing and immediately got a response for the next day. When we decided we needed something bigger she suggested another property in Newton to see the next day. The home was spacious and beautifully built.”</blockquote><figcaption><img class="av" src="assets/img/reviews/kara-m.webp" alt="" width="96" height="96" loading="lazy"><span><b>Kara M.</b><small>Google review</small></span></figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“I’ve been leasing a Legacy property for a year now and they have been a wonderful team to work with! They are very responsive and always willing to help however they can.”</blockquote><figcaption><img class="av" src="assets/img/reviews/elizabeth-e.webp" alt="" width="96" height="96" loading="lazy"><span><b>Elizabeth E.</b><small>Google review</small></span></figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“I just got medically retired from the Air Force and moved back to NC. I needed a place to live and Legacy worked with me for months. Very professional and absolutely wonderful to work with.”</blockquote><figcaption><img class="av" src="assets/img/reviews/chris-s.webp" alt="" width="96" height="96" loading="lazy"><span><b>Chris S.</b><small>Google review</small></span></figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“It was a breath of fresh air to interact with an actual human instead of AI text messaging from other renters. Knowledgeable and present for the whole process!”</blockquote><figcaption><img class="av" src="assets/img/reviews/charlie-l.webp" alt="" width="96" height="96" loading="lazy"><span><b>Charlie L.</b><small>Google review</small></span></figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“From the very beginning she was with us every single step of the way and truly made finding our dream home such a smooth and stress-free experience.”</blockquote><figcaption><img class="av" src="assets/img/reviews/alexis-c.webp" alt="" width="96" height="96" loading="lazy"><span><b>Alexis C.</b><small>Google review</small></span></figcaption></figure>
     </div>
   </div>
 </section>

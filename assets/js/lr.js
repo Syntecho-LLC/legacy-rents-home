@@ -45,6 +45,64 @@
   });
   desk.addEventListener && desk.addEventListener('change', function () { if (desk.matches) setMenu(false); });
 
+
+  /* ---------- search: branded dropdowns with icons over the native selects (which still submit the form) ---------- */
+  $$('.search select').forEach(function (sel) {
+    var icon = sel.getAttribute('data-icon'), tags = sel.hasAttribute('data-tags');
+    var wrap = document.createElement('div'); wrap.className = 'dd2';
+    var id = 'dd2-' + sel.name;
+    wrap.innerHTML = '<button type="button" class="dd2-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="' + id + '" aria-labelledby="' + sel.getAttribute('aria-labelledby') + ' ' + id + '-v">' +
+      '<img src="' + icon + '" alt=""><span class="dd2-val" id="' + id + '-v"></span><i class="chev2"></i></button>' +
+      '<ul class="dd2-list" id="' + id + '" role="listbox" tabindex="-1" aria-labelledby="' + sel.getAttribute('aria-labelledby') + '"></ul>';
+    var btn = wrap.querySelector('button'), val = wrap.querySelector('.dd2-val'), list = wrap.querySelector('ul');
+    var opts = Array.prototype.slice.call(sel.options);
+    opts.forEach(function (o, i) {
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option'); li.id = id + '-' + i;
+      if (!o.value) li.className = 'any';
+      var txt = o.textContent, tag = '';
+      if (tags && o.value) { var m = txt.match(/^(.*),\s*([A-Z]{2})$/); if (m) { txt = m[1]; tag = '<b class="dd2-tag">' + m[2] + '</b>'; } }
+      li.innerHTML = '<img src="' + icon + '" alt=""><span>' + txt + '</span>' + tag + '<svg class="ok" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>';
+      list.appendChild(li);
+    });
+    var items = $$('li', list), act = 0;
+    var sync = function () {
+      var i = sel.selectedIndex;
+      items.forEach(function (li, k) { li.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+      val.textContent = opts[i].textContent; val.classList.toggle('ph', !opts[i].value);
+    };
+    var setAct = function (k) {
+      act = Math.max(0, Math.min(items.length - 1, k));
+      items.forEach(function (li, j) { li.classList.toggle('act', j === act); });
+      list.setAttribute('aria-activedescendant', items[act].id);
+    };
+    var open = function (on) {
+      if (on) $$('.dd2.open').forEach(function (d) { if (d !== wrap) d.closeDd(); });
+      wrap.classList.toggle('open', on); btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) { setAct(sel.selectedIndex); list.focus({ preventScroll: true }); }
+    };
+    wrap.closeDd = function () { open(false); };
+    var pick = function (k) { sel.selectedIndex = k; sel.dispatchEvent(new Event('change', { bubbles: true })); sync(); open(false); btn.focus(); };
+    btn.addEventListener('click', function (e) { e.preventDefault(); open(!wrap.classList.contains('open')); });
+    items.forEach(function (li, k) {
+      li.addEventListener('click', function (e) { e.preventDefault(); pick(k); });
+      li.addEventListener('mousemove', function () { if (act !== k) setAct(k); });
+    });
+    list.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); setAct(act + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setAct(act - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); setAct(0); }
+      else if (e.key === 'End') { e.preventDefault(); setAct(items.length - 1); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(act); }
+      else if (e.key === 'Escape' || e.key === 'Tab') { open(false); if (e.key === 'Escape') btn.focus(); }
+    });
+    btn.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(true); } });
+    document.addEventListener('click', function (e) { if (!wrap.contains(e.target) && wrap.classList.contains('open')) open(false); });
+    sel.hidden = true;
+    sel.parentNode.insertBefore(wrap, sel);
+    sync();
+  });
+
   /* ---------- reviews: prev / next ---------- */
   var revs = $('#revs');
   $$('[data-rev]').forEach(function (b) {
@@ -132,6 +190,22 @@
         card.style.setProperty('--my', (e.clientY - r.top) + 'px');
       });
     });
+  }
+
+
+  /* ---------- hero video: right size for the screen, fades in over the photo once playing ---------- */
+  var hv = document.getElementById('heroVideo');
+  if (hv && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var save = navigator.connection && navigator.connection.saveData;
+    if (!save) {
+      hv.src = window.matchMedia('(max-width:767px)').matches ? hv.getAttribute('data-src-sm') : hv.getAttribute('data-src-lg');
+      hv.addEventListener('playing', function () { hv.classList.add('on'); }, { once: true });
+      var p = hv.play(); if (p && p.catch) p.catch(function () {});
+      /* pause while the hero is off screen */
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { var q = hv.play(); if (q && q.catch) q.catch(function () {}); } else hv.pause();
+      }).observe(hv);
+    }
   }
 
   /* ---------- tracking hooks (no-op until GTM is added) ---------- */
